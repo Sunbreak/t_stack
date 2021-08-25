@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - t_stack (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - t_stack (from `.symlinks/plugins/t_stack/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  t_stack:
+    :path: ".symlinks/plugins/t_stack/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  t_stack: a7379b0cfc9f981f0353e0e3cb1630dcecb13b66
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.1
