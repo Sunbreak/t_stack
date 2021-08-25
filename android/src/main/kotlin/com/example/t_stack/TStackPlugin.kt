@@ -1,6 +1,7 @@
 package com.example.t_stack
 
 import androidx.annotation.NonNull
+import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -8,8 +9,10 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 const val kMethodActionToNative = "methodActionToNative"
+const val kMethodActionToFlutter = "methodActionToFlutter"
 
 const val kActionPush = "push"
+const val kActionPop = "pop"
 
 /** TStackPlugin */
 class TStackPlugin : FlutterPlugin, MethodCallHandler {
@@ -46,4 +49,24 @@ class TStackPlugin : FlutterPlugin, MethodCallHandler {
   private fun handleFlutterPush(args: Map<String, Any>) {
     TNavigator.pushRoute(args["routeName"] as String)
   }
+
+  fun pushRoute(routeName: String) {
+    channel.invokeMethod(
+      kMethodActionToFlutter, mapOf(
+        "action" to kActionPush,
+        "routeName" to routeName
+      )
+    )
+  }
+
+  fun popRoute(routeName: String) {
+    channel.invokeMethod(
+      kMethodActionToFlutter, mapOf(
+        "action" to kActionPush,
+        "routeName" to routeName
+      )
+    )
+  }
 }
+
+fun FlutterEngine.getTStackPlugin() = plugins[TStackPlugin::class.java] as TStackPlugin
