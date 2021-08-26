@@ -1,11 +1,17 @@
 PODS:
   - Flutter (1.0.0)
+  - SnapKit (5.0.1)
   - t_stack (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - SnapKit (~> 5.0.0)
   - t_stack (from `.symlinks/plugins/t_stack/ios`)
+
+SPEC REPOS:
+  trunk:
+    - SnapKit
 
 EXTERNAL SOURCES:
   Flutter:
@@ -15,8 +21,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   t_stack: a7379b0cfc9f981f0353e0e3cb1630dcecb13b66
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: 0a9435d551e15b86067b9e3868a8b8711d03f98d
 
 COCOAPODS: 1.10.1

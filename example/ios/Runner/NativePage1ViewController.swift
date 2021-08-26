@@ -1,3 +1,6 @@
+import SnapKit
+import t_stack
+
 class NativePage1ViewController: UIViewController {
     convenience init() {
         self.init(nibName: nil, bundle: nil)
@@ -9,30 +12,24 @@ class NativePage1ViewController: UIViewController {
         initView()
     }
 
-    var statusBarHeight: CGFloat {
-        get {
-            if #available(iOS 13.0, *), let m = UIApplication.shared.windows.first?.windowScene?.statusBarManager {
-                return m.statusBarFrame.height
-            } else {
-                return UIApplication.shared.statusBarFrame.height
-            }
-        }
-    }
+    lazy var statusBarHeight = UIApplication.shared.windows.first!.windowScene!.statusBarManager!.statusBarFrame.height
 
     func initView() {
         view.backgroundColor = UIColor.white
 
-        let stack = UIStackView()
-        view.addSubview(stack)
-        stack.axis = .vertical
-        stack.alignment = .center
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.leadingAnchor.constraint(equalTo: stack.superview!.leadingAnchor).isActive = true
-        stack.trailingAnchor.constraint(equalTo: stack.superview!.trailingAnchor).isActive = true
-        stack.topAnchor.constraint(equalTo: stack.superview!.topAnchor, constant: statusBarHeight).isActive = true
+        let stack = view.layout(subView: UIStackView()) { s in
+            s.axis = .vertical
+            s.alignment = .center
+            s.snp.makeConstraints { make in
+                make.top.equalToSuperview().offset(self.statusBarHeight)
+                make.width.equalToSuperview()
+            }
+        }
 
-        let label = UILabel()
-        stack.addArrangedSubview(label)
-        label.text = "NativePage1"
+        stack.arrangedLayout(subView: UIButton(type: .system, primaryAction: UIAction { _ in
+            self.present(TFlutterViewController(), animated: true)
+        })) { b in
+            b.setTitle("push(FlutterPage1)", for: .normal)
+        }
     }
 }

@@ -13,6 +13,25 @@ class TNavigator {
 
     func pushRoute(_ routeName: String) {
         guard let block = routeMap[routeName] else { return }
-        TStack.shared.delegate.findCurrentController().present(block(), animated: true)
+        findController(rootViewController).present(block(), animated: true)
+    }
+
+    var rootViewController: UIViewController {
+        get {
+            UIApplication.shared.delegate?.window??.rootViewController ?? UIApplication.shared.keyWindow!.rootViewController!
+        }
+    }
+
+    func findController(_ controller: UIViewController) -> UIViewController {
+        if let presented = controller.presentedViewController {
+            return findController(presented)
+        }
+        if let top = (controller as? UINavigationController)?.topViewController {
+            return findController(top)
+        }
+        if let selected = (controller as? UITabBarController)?.selectedViewController {
+            return findController(selected)
+        }
+        return controller
     }
 }
