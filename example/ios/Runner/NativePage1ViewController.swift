@@ -27,9 +27,15 @@ class NativePage1ViewController: UIViewController {
         }
 
         stack.arrangedLayout(subView: UIButton(type: .system, primaryAction: UIAction { _ in
-            self.present(TFlutterViewController(), animated: true)
+            self.present(TFlutterViewController(routeName: "flutterPage1"), animated: true)
         })) { b in
             b.setTitle("push(FlutterPage1)", for: .normal)
+        }
+
+        stack.arrangedLayout(subView: UIButton(type: .system, primaryAction: UIAction { _ in
+            self.present(TFlutterViewController(routeName: "flutterPage2"), animated: true)
+        })) { b in
+            b.setTitle("push(FlutterPage2)", for: .normal)
         }
     }
 }

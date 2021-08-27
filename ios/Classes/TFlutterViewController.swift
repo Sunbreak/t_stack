@@ -1,28 +1,27 @@
 import UIKit
+import Flutter
 
 // TODO SimpleTFlutterViewController
 public class TFlutterViewController: FlutterViewController {
-    convenience init() {
+    var routeName: String!
+
+    public convenience init(routeName: String) {
         self.init(engine: TStack.shared.flutterEngine, nibName: nil, bundle: nil)
         self.modalPresentationStyle = .fullScreen
+        self.routeName = routeName
     }
 
     public override func viewDidLoad() {
-        super.viewDidLoad()
         attachToEngine()
+        super.viewDidLoad()
     }
 
     public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        SwiftTStackPlugin.shared.pushRoute(routeName)
         attachToEngine()
+        super.viewWillAppear(animated)
     }
 
-    public override func didMove(toParent parent: UIViewController?) {
-        if parent == nil {
-            detachToEngine()
-        }
-    }
-    
     public override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
         super.dismiss(animated: flag) {
             completion?()
