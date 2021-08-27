@@ -65,10 +65,17 @@ class CachedEngineIntentBuilder(
     private val destroyEngineWithActivity: Boolean = false,
     private val backgroundMode: String = FlutterActivityLaunchConfigs.BackgroundMode.opaque.name
 ) {
+    private lateinit var routeName: String
+
+    fun routeName(routeName: String) = apply {
+        this.routeName = routeName
+    }
+
     fun build(context: Context) = Intent(context, activityClass)
         .putExtra(kExtraCachedEngineId, cachedEngineId)
         .putExtra(kExtraDestroyEngineWithActivity, destroyEngineWithActivity)
         .putExtra(kExtraBackgroundMode, backgroundMode)
+        .putExtra(kRouteName, routeName)
 }
 
 fun findFlutterView(view: View): FlutterView? {
