@@ -11,6 +11,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.t_stack.TStack
 
+const val initialRoute = "flutterPage1"
+
 class TStackApplication : Application() {
     override fun onCreate() {
         super.onCreate()

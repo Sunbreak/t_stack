@@ -2,6 +2,8 @@ import UIKit
 import Flutter
 import t_stack
 
+let initialRoute = "flutterPage1"
+
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
     override func application(
@@ -16,15 +18,18 @@ import t_stack
         GeneratedPluginRegistrant.register(with: TStack.shared.flutterEngine)
 
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        self.window.makeKeyAndVisible()
 
         initShortcuts()
         if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             handleShortcut(shortcutItem)
+            self.window.makeKeyAndVisible()
             return super.application(application, didFinishLaunchingWithOptions: launchOptions)
         }
 
-        self.window.rootViewController = TFlutterViewController()
+        self.window.rootViewController = TFlutterViewController(routeName: initialRoute)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // FIXME
+            self.window.makeKeyAndVisible()
+        }
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 }
