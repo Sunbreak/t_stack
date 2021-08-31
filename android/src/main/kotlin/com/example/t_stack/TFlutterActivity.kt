@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterActivityLaunchConfigs
 import io.flutter.embedding.android.FlutterView
+import java.util.*
 
 const val kRouteName = "routeName"
 
@@ -29,7 +30,8 @@ class TFlutterActivity : FlutterActivity() {
     override fun onResume() {
         super.onResume()
         flutterView.attachToFlutterEngine(flutterEngine!!)
-        flutterEngine!!.getTStackPlugin().pushRoute(intent.getStringExtra(kRouteName)!!)
+        TNodeManager.putIfAbsent(node)
+        TStack.flutterEngine.getTStackPlugin().activateFlutterNode(node)
     }
 
     override fun onPause() {
@@ -53,6 +55,8 @@ class TFlutterActivity : FlutterActivity() {
     }
 
     override fun getCachedEngineId() = TStack.kEngineId
+
+    private val node get() = intent.getParcelableExtra<TNode>(kTNode)!!
 }
 
 const val kExtraCachedEngineId = "cached_engine_id"
@@ -75,7 +79,7 @@ class CachedEngineIntentBuilder(
         .putExtra(kExtraCachedEngineId, cachedEngineId)
         .putExtra(kExtraDestroyEngineWithActivity, destroyEngineWithActivity)
         .putExtra(kExtraBackgroundMode, backgroundMode)
-        .putExtra(kRouteName, routeName)
+        .putExtra(kTNode, TNode(UUID.randomUUID().toString(), routeName, kTypeFlutter))
 }
 
 fun findFlutterView(view: View): FlutterView? {
