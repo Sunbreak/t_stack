@@ -12,8 +12,14 @@ class TNavigator {
     }
 
     func pushRoute(_ routeName: String) {
-        guard let block = routeMap[routeName] else { return }
-        findController(rootViewController).present(block(), animated: true)
+        if let buildPage = routeMap[routeName] {
+            TNodeManager.shared.putIfAbsent(TNode(id: UUID().uuidString, routeName: routeName, type: kTypeNative))
+            findController(rootViewController).present(buildPage(), animated: true)
+        } else {
+            let node = TNode(id: UUID().uuidString, routeName: routeName, type: kTypeFlutter)
+            TNodeManager.shared.putIfAbsent(node)
+            SwiftTStackPlugin.shared.activateFlutterNode(node)
+        }
     }
 
     var rootViewController: UIViewController {
