@@ -2,6 +2,8 @@
     package="com.example.t_stack">
 
     <application>
-        <activity android:name=".TFlutterActivity" />
+        <activity
+            android:name=".TFlutterActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
     </application>
 </manifest>

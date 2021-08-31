@@ -24,13 +24,13 @@ class TStackAppState extends State<TStackApp> {
     );
   }
 
-  void pushNode(TNode node) {
-    // var holder = _pageHolders[node.identifier];
-    var holder = _pageHolders[node.routeName];
+  void handleActivate(TNode node) {
+    var holder = _pageHolders[node.id];
     if (holder != null) {
       holder.widget.remove(); // remove widget in stack
     } else {
       holder = PageHolder.of(node);
+      _pageHolders[node.id] = holder;
     }
     // insert widget onto top
     overlayKey.currentState?.insert(holder.widget);

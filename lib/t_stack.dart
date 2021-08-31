@@ -12,6 +12,7 @@ export 'src/t_stack_app.dart';
 const String kMethodActionToNative = "methodActionToNative";
 
 const String kActionPush = "push";
+const String kActionActivate = "activate";
 
 typedef TRouteBuilder = WidgetBuilder Function(TNode node);
 
@@ -30,8 +31,8 @@ class TStack {
 
   static Future<void> push(String routeName) async {
     await _channel.invokeMethod(kMethodActionToNative, {
-      'routeName': routeName,
       'action': kActionPush,
+      'routeName': routeName,
     });
   }
 }

@@ -10,11 +10,12 @@ object TStack {
     const val kEngineId = "t_stack_engine"
 
     internal var appContext: Context? = null
+    lateinit var flutterEngine: FlutterEngine
 
     fun init(context: Context) {
         if (appContext == null) {
             appContext = context.applicationContext
-            FlutterEngine(context).also {
+            flutterEngine = FlutterEngine(context).also {
                 it.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
                 FlutterEngineCache.getInstance().put(kEngineId, it)
             }

@@ -5,6 +5,7 @@ let kMethodActionToNative = "methodActionToNative"
 let kMethodActionToFlutter = "methodActionToFlutter"
 
 let kActionPush = "push"
+let kActionActivate = "activate"
 
 public class SwiftTStackPlugin: NSObject, FlutterPlugin {
     static let shared = SwiftTStackPlugin()
@@ -37,10 +38,10 @@ public class SwiftTStackPlugin: NSObject, FlutterPlugin {
         TNavigator.shared.pushRoute(args["routeName"] as! String)
     }
 
-    func pushRoute(_ routeName: String) {
+    func activateFlutterNode(_ node: TNode) {
         channel.invokeMethod(kMethodActionToFlutter, arguments: [
-            "action": kActionPush,
-            "routeName": routeName
+            "action": kActionActivate,
+            kTNode: node.toDictionary()
         ])
     }
 }

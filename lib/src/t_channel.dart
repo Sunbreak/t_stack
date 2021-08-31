@@ -34,8 +34,9 @@ class TChannel {
 
   Future<dynamic> handMethodActionToFlutter(Map arguments) async {
     switch (arguments['action']) {
-      case kActionPush:
-        _stackAppState!.pushNode(TNode.fromMap(arguments.cast()));
+      case kActionActivate:
+        final map = arguments['node'].cast<String, dynamic>();
+        _stackAppState!.handleActivate(TNode.fromMap(map));
         break;
     }
   }

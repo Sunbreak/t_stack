@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterActivityLaunchConfigs
 import io.flutter.embedding.android.FlutterView
+import java.util.*
 
 const val kRouteName = "routeName"
 
@@ -21,15 +22,20 @@ class TFlutterActivity : FlutterActivity() {
 
     private lateinit var flutterView: FlutterView
 
+    private lateinit var rootNode: TNode
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         flutterView = findFlutterView(window.decorView)!!
+        rootNode = intent.getParcelableExtra(kTNode)!!
+        TNodeManager.putIfAbsent(rootNode)
     }
 
     override fun onResume() {
         super.onResume()
         flutterView.attachToFlutterEngine(flutterEngine!!)
-        flutterEngine!!.getTStackPlugin().pushRoute(intent.getStringExtra(kRouteName)!!)
+        val topNode = TNodeManager.findLastGroup(rootNode)!!.last()
+        TStack.flutterEngine.getTStackPlugin().activateFlutterNode(topNode)
     }
 
     override fun onPause() {
@@ -75,7 +81,7 @@ class CachedEngineIntentBuilder(
         .putExtra(kExtraCachedEngineId, cachedEngineId)
         .putExtra(kExtraDestroyEngineWithActivity, destroyEngineWithActivity)
         .putExtra(kExtraBackgroundMode, backgroundMode)
-        .putExtra(kRouteName, routeName)
+        .putExtra(kTNode, TNode(UUID.randomUUID().toString(), routeName, kTypeFlutter))
 }
 
 fun findFlutterView(view: View): FlutterView? {
