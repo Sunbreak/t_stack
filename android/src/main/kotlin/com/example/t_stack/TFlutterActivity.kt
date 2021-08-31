@@ -22,16 +22,20 @@ class TFlutterActivity : FlutterActivity() {
 
     private lateinit var flutterView: FlutterView
 
+    private lateinit var rootNode: TNode
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         flutterView = findFlutterView(window.decorView)!!
+        rootNode = intent.getParcelableExtra(kTNode)!!
+        TNodeManager.putIfAbsent(rootNode)
     }
 
     override fun onResume() {
         super.onResume()
         flutterView.attachToFlutterEngine(flutterEngine!!)
-        TNodeManager.putIfAbsent(node)
-        TStack.flutterEngine.getTStackPlugin().activateFlutterNode(node)
+        val topNode = TNodeManager.findLastGroup(rootNode)!!.last()
+        TStack.flutterEngine.getTStackPlugin().activateFlutterNode(topNode)
     }
 
     override fun onPause() {
@@ -55,8 +59,6 @@ class TFlutterActivity : FlutterActivity() {
     }
 
     override fun getCachedEngineId() = TStack.kEngineId
-
-    private val node get() = intent.getParcelableExtra<TNode>(kTNode)!!
 }
 
 const val kExtraCachedEngineId = "cached_engine_id"

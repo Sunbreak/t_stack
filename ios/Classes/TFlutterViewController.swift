@@ -3,24 +3,25 @@ import Flutter
 
 // TODO SimpleTFlutterViewController
 public class TFlutterViewController: FlutterViewController {
-    var node: TNode!
+    var rootNode: TNode!
 
     public convenience init(routeName: String) {
         self.init(engine: TStack.shared.flutterEngine, nibName: nil, bundle: nil)
         self.modalPresentationStyle = .fullScreen
-        self.node = TNode(id: UUID().uuidString, routeName: routeName, type: kTypeFlutter)
+        self.rootNode = TNode(id: UUID().uuidString, routeName: routeName, type: kTypeFlutter)
     }
 
     public override func viewDidLoad() {
-        attachToEngine()
         super.viewDidLoad()
+        attachToEngine()
+        TNodeManager.shared.putIfAbsent(rootNode)
     }
 
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         attachToEngine()
-        TNodeManager.shared.putIfAbsent(node)
-        SwiftTStackPlugin.shared.activateFlutterNode(node)
+        let topNode = TNodeManager.shared.findLastGroup(rootNode)!.last!
+        SwiftTStackPlugin.shared.activateFlutterNode(topNode)
     }
 
     public override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {

@@ -23,17 +23,20 @@ class TNodeManager {
 
     private var nodeGroups = Array<[TNode]>();
 
-    func putIfAbsent(_ node: TNode) {
-        let findGroup = nodeGroups.last { group in
+    func findLastGroup(_ node: TNode) -> [TNode]? {
+        return nodeGroups.last { group in
             return group.contains { $0.id == node.id }
         }
-        if (findGroup == nil) {
-            var lastGroup = nodeGroups.last
-            if (lastGroup?.last?.type == node.type) {
-                lastGroup!.append(node)
-            } else {
-                nodeGroups.append([node])
-            }
+    }
+
+    func putIfAbsent(_ node: TNode) {
+        if findLastGroup(node) != nil { return }
+
+        var lastGroup = nodeGroups.last
+        if (lastGroup?.last?.type == node.type) {
+            lastGroup!.append(node)
+        } else {
+            nodeGroups.append([node])
         }
     }
 }
