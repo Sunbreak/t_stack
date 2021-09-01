@@ -1,6 +1,7 @@
 package com.example.t_stack
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.FlutterEngineCache
@@ -15,6 +16,7 @@ object TStack {
     fun init(context: Context) {
         if (appContext == null) {
             appContext = context.applicationContext
+            (appContext as Application).registerActivityLifecycleCallbacks(TNavigator)
             flutterEngine = FlutterEngine(context).also {
                 it.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
                 FlutterEngineCache.getInstance().put(kEngineId, it)

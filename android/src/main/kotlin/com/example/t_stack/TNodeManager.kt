@@ -1,5 +1,6 @@
 package com.example.t_stack
 
+import android.app.Activity
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
@@ -20,8 +21,13 @@ class TNode(
     )
 }
 
+class TActivityGroup(nodes: MutableList<TNode>) : MutableList<TNode> by nodes {
+    // TODO WeakReference
+    val activities = mutableListOf<Activity>()
+}
+
 object TNodeManager {
-    private val nodeGroups = mutableListOf<MutableList<TNode>>()
+    private val nodeGroups = mutableListOf<TActivityGroup>()
 
     fun findLastGroup(node: TNode) = nodeGroups.findLast { group ->
         group.any { it.id == node.id }
@@ -34,7 +40,7 @@ object TNodeManager {
         if (lastGroup?.last()?.type == node.type) {
             lastGroup.add(node)
         } else {
-            nodeGroups.add(mutableListOf(node))
+            nodeGroups.add(TActivityGroup(mutableListOf(node)))
         }
     }
 }
