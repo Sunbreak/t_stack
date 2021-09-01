@@ -32,7 +32,7 @@ object TNavigator : Application.ActivityLifecycleCallbacks {
                     .putExtra(kTNode, node)
                 TStack.appContext!!.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             } else {
-                TStack.flutterEngine.getTStackPlugin().activateFlutterNode(node)
+                TStackPlugin.instance.activateFlutterNode(node)
             }
         }
     }
@@ -49,8 +49,9 @@ object TNavigator : Application.ActivityLifecycleCallbacks {
             // Before destroyed, TNode within activity could be removed already
             TNodeManager.findLastGroup(node)?.also { group ->
                 group.activities.remove(activity)
-                group.remove(node)
+                group.removeAll { it.id == node.id }
             }
+            TNodeManager.clearGroup()
         }
     }
 

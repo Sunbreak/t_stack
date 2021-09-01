@@ -43,4 +43,28 @@ object TNodeManager {
             nodeGroups.add(TActivityGroup(mutableListOf(node)))
         }
     }
+
+    fun pop() {
+        val lastGroup = nodeGroups.last()
+        val lastNode = lastGroup.last()
+
+        if (lastNode.type == kTypeNative // native popTo native/flutter or OUTSIDE
+            || lastGroup.size == 1 // last flutter popTo native or OUTSIDE
+        ) {
+            // node/activity and group will be remove in onActivityDestroyed
+            lastGroup.activities.last {
+                it.intent.getParcelableExtra<TNode>(kTNode)!!.id == lastNode.id
+            }.finish()
+        } else {
+            // flutter popTo flutter
+            val preNode = lastGroup[lastGroup.lastIndex - 1]
+            lastGroup.remove(lastNode)
+            TStackPlugin.instance.removeFlutterNodes(lastNode)
+            TStackPlugin.instance.activateFlutterNode(preNode)
+        }
+    }
+
+    fun clearGroup() {
+        nodeGroups.removeAll { it.isEmpty() }
+    }
 }
