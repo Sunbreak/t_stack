@@ -3,6 +3,9 @@ import 'package:t_stack/t_stack.dart';
 
 const String kMethodActionToFlutter = 'methodActionToFlutter';
 
+const String kActionActivate = "activate";
+const String kActionRemove = "remove";
+
 final MethodChannel _channel = const MethodChannel('t_stack');
 
 class TChannel {
@@ -38,6 +41,12 @@ class TChannel {
         final map = arguments['node'].cast<String, dynamic>();
         _stackAppState!.handleActivate(TNode.fromMap(map));
         break;
+      case kActionRemove:
+        // TODO
+        break;
     }
   }
+
+  Future<dynamic> invokeActionToNative([dynamic argments]) =>
+      _channel.invokeMethod(kMethodActionToNative, argments);
 }

@@ -19,7 +19,8 @@ class TStackApplication : Application() {
         TStack.init(this)
         TStack.registerRoute(
             mapOf(
-                "nativePage1" to NativePage1Activity::class.java
+                "nativePage1" to NativePage1Activity::class.java,
+                "nativePage2" to NativePage2Activity::class.java
             )
         )
 

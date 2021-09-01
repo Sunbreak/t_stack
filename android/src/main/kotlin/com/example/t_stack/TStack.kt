@@ -28,4 +28,6 @@ object TStack {
         TNavigator.registerRoute(routeMap)
 
     fun pushRoute(routeName: String) = TNavigator.pushRoute(routeName)
+
+    fun pop() = TNodeManager.pop()
 }

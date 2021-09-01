@@ -30,7 +30,7 @@ class TFlutterActivity : FlutterActivity() {
         super.onResume()
         flutterView.attachToFlutterEngine(flutterEngine!!)
         val topNode = TNodeManager.findLastGroup(rootNode)!!.last()
-        TStack.flutterEngine.getTStackPlugin().activateFlutterNode(topNode)
+        TStackPlugin.instance.activateFlutterNode(topNode)
     }
 
     override fun onPause() {

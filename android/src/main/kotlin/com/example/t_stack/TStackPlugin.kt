@@ -1,7 +1,6 @@
 package com.example.t_stack
 
 import androidx.annotation.NonNull
-import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -13,9 +12,15 @@ const val kMethodActionToFlutter = "methodActionToFlutter"
 
 const val kActionPush = "push"
 const val kActionActivate = "activate"
+const val kActionPop = "pop"
+const val kActionRemove = "Remove"
 
 /** TStackPlugin */
 class TStackPlugin : FlutterPlugin, MethodCallHandler {
+  companion object {
+    val instance get() = TStack.flutterEngine.plugins[TStackPlugin::class.java] as TStackPlugin
+  }
+
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -38,6 +43,9 @@ class TStackPlugin : FlutterPlugin, MethodCallHandler {
         kActionPush -> {
           handleFlutterPush(args)
         }
+        kActionPop -> {
+          handleFlutterPop()
+        }
         else -> println("Unknown") // TODO warning
       }
       result.success(null)
@@ -50,6 +58,10 @@ class TStackPlugin : FlutterPlugin, MethodCallHandler {
     TNavigator.pushRoute(args["routeName"] as String)
   }
 
+  private fun handleFlutterPop() {
+    TNodeManager.pop()
+  }
+
   fun activateFlutterNode(node: TNode) {
     channel.invokeMethod(
       kMethodActionToFlutter, mapOf(
@@ -58,6 +70,13 @@ class TStackPlugin : FlutterPlugin, MethodCallHandler {
       )
     )
   }
-}
 
-fun FlutterEngine.getTStackPlugin() = plugins[TStackPlugin::class.java] as TStackPlugin
+  fun removeFlutterNodes(node: TNode) {
+    channel.invokeMethod(
+      kMethodActionToFlutter, mapOf(
+        "action" to kActionRemove,
+        kTNode to node
+      )
+    )
+  }
+}
