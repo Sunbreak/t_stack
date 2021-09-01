@@ -26,4 +26,6 @@ object TStack {
 
     fun registerRoute(routeMap: Map<String, Class<out Activity>>) =
         TNavigator.registerRoute(routeMap)
+
+    fun pushRoute(routeName: String) = TNavigator.pushRoute(routeName)
 }

@@ -4,16 +4,13 @@ import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import com.example.t_stack.TFlutterActivity
+import com.example.t_stack.TStack
 
 class EntryActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = TFlutterActivity.newIntentBuilder()
-                .routeName(initialRoute)
-                .build(this)
-            startActivity(intent)
+            TStack.pushRoute(initialRoute)
             finish()
         }, 500) // FIXME
     }
