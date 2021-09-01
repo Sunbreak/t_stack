@@ -38,7 +38,31 @@ final WidgetBuilder page1Builder = (BuildContext context) {
             onPressed: () {
               TStack.push('nativePage1');
             },
-          )
+          ),
+          ElevatedButton(
+            child: Text('push(nativePage2)'),
+            onPressed: () {
+              TStack.push('nativePage2');
+            },
+          ),
+          ElevatedButton(
+            child: Text('push(flutterPage1)'),
+            onPressed: () {
+              TStack.push('flutterPage1');
+            },
+          ),
+          ElevatedButton(
+            child: Text('push(flutterPage2)'),
+            onPressed: () {
+              TStack.push('flutterPage2');
+            },
+          ),
+          ElevatedButton(
+            child: Text('pop'),
+            onPressed: () {
+              TStack.pop();
+            },
+          ),
         ],
       ),
     ),
@@ -58,7 +82,31 @@ final WidgetBuilder page2Builder = (BuildContext context) {
             onPressed: () {
               TStack.push('nativePage1');
             },
-          )
+          ),
+          ElevatedButton(
+            child: Text('push(nativePage2)'),
+            onPressed: () {
+              TStack.push('nativePage2');
+            },
+          ),
+          ElevatedButton(
+            child: Text('push(flutterPage1)'),
+            onPressed: () {
+              TStack.push('flutterPage1');
+            },
+          ),
+          ElevatedButton(
+            child: Text('push(flutterPage2)'),
+            onPressed: () {
+              TStack.push('flutterPage2');
+            },
+          ),
+          ElevatedButton(
+            child: Text('pop'),
+            onPressed: () {
+              TStack.pop();
+            },
+          ),
         ],
       ),
     ),
