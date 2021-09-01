@@ -9,26 +9,21 @@ import android.view.ViewGroup
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterActivityLaunchConfigs
 import io.flutter.embedding.android.FlutterView
-import java.util.*
-
-const val kRouteName = "routeName"
 
 // TODO SimpleTFlutterActivity
 class TFlutterActivity : FlutterActivity() {
     companion object {
-        fun newIntentBuilder(id: String = TStack.kEngineId) =
+        internal fun newIntentBuilder(id: String = TStack.kEngineId) =
             com.example.t_stack.CachedEngineIntentBuilder(TFlutterActivity::class.java, id)
     }
 
     private lateinit var flutterView: FlutterView
 
-    private lateinit var rootNode: TNode
+    private val rootNode: TNode get() = intent.getParcelableExtra(kTNode)!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         flutterView = findFlutterView(window.decorView)!!
-        rootNode = intent.getParcelableExtra(kTNode)!!
-        TNodeManager.putIfAbsent(rootNode)
     }
 
     override fun onResume() {
@@ -71,17 +66,10 @@ class CachedEngineIntentBuilder(
     private val destroyEngineWithActivity: Boolean = false,
     private val backgroundMode: String = FlutterActivityLaunchConfigs.BackgroundMode.opaque.name
 ) {
-    private lateinit var routeName: String
-
-    fun routeName(routeName: String) = apply {
-        this.routeName = routeName
-    }
-
     fun build(context: Context) = Intent(context, activityClass)
         .putExtra(kExtraCachedEngineId, cachedEngineId)
         .putExtra(kExtraDestroyEngineWithActivity, destroyEngineWithActivity)
         .putExtra(kExtraBackgroundMode, backgroundMode)
-        .putExtra(kTNode, TNode(UUID.randomUUID().toString(), routeName, kTypeFlutter))
 }
 
 fun findFlutterView(view: View): FlutterView? {
